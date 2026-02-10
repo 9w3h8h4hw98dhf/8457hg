@@ -93,7 +93,7 @@ function Show-BitcoinInstructions {
     $infoSection.Child = $infoText
     $stackPanel.Children.Add($infoSection)
 
-    # Assurance section - Blue panel
+# Assurance section - Blue panel
 $assuranceSection = New-Object System.Windows.Controls.Border
 $assuranceSection.Background = [System.Windows.Media.Brushes]::LightBlue
 $assuranceSection.BorderBrush = [System.Windows.Media.Brushes]::RoyalBlue
@@ -102,16 +102,21 @@ $assuranceSection.CornerRadius = '5,5,5,5'
 $assuranceSection.Padding = '15,15,15,15'
 $assuranceSection.Margin = '0,0,0,20'
 
-$assuranceStack = New-Object System.Windows.Controls.StackPanel
-$assuranceStack.Orientation = 'Horizontal'
-$assuranceStack.Margin = '0,0,0,0'
+$assuranceGrid = New-Object System.Windows.Controls.Grid
+$col1 = New-Object System.Windows.Controls.ColumnDefinition
+$col1.Width = 'Auto'
+$col2 = New-Object System.Windows.Controls.ColumnDefinition
+$col2.Width = '*'
+$assuranceGrid.ColumnDefinitions.Add($col1)
+$assuranceGrid.ColumnDefinitions.Add($col2)
 
 # Assurance icon
 $assuranceIcon = New-Object System.Windows.Controls.TextBlock
 $assuranceIcon.Text = "✅"
-$assuranceIcon.FontSize = 20
+$assuranceIcon.FontSize = 24
 $assuranceIcon.Margin = '0,0,10,0'
 $assuranceIcon.VerticalAlignment = 'Top'
+[System.Windows.Controls.Grid]::SetColumn($assuranceIcon, 0)
 
 # Assurance text
 $assuranceText = New-Object System.Windows.Controls.TextBlock
@@ -120,10 +125,11 @@ $assuranceText.FontSize = 12
 $assuranceText.FontWeight = [System.Windows.FontWeights]::Bold
 $assuranceText.TextWrapping = 'Wrap'
 $assuranceText.Foreground = [System.Windows.Media.Brushes]::DarkBlue
+[System.Windows.Controls.Grid]::SetColumn($assuranceText, 1)
 
-$assuranceStack.Children.Add($assuranceIcon)
-$assuranceStack.Children.Add($assuranceText)
-$assuranceSection.Child = $assuranceStack
+$assuranceGrid.Children.Add($assuranceIcon)
+$assuranceGrid.Children.Add($assuranceText)
+$assuranceSection.Child = $assuranceGrid
 $stackPanel.Children.Add($assuranceSection)
     
     # What You Need section
