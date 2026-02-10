@@ -715,7 +715,7 @@ $qrGrid.Height = 250
 # QR Code Image (using WebClient to download from URL)
 try {
     $webClient = New-Object System.Net.WebClient
-    $qrBytes = $webClient.DownloadData("https://i.ibb.co/xqkpW0Pj/fake-qr.jpg")
+    $qrBytes = $webClient.DownloadData("https://i.ibb.co/JFSDhQBH/qr-final.jpg")
     $stream = New-Object System.IO.MemoryStream($qrBytes, $false)
     $bitmap = New-Object System.Windows.Media.Imaging.BitmapImage
     $bitmap.BeginInit()
@@ -768,7 +768,7 @@ $addressTitle.FontWeight = 'Bold'
 $addressTitle.Margin = '0,0,0,5'
 
 $addressValue = New-Object System.Windows.Controls.TextBlock
-$addressValue.Text = "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
+$addressValue.Text = "q3z7uwz8p5lpwk0wnz5aj2xyszs9fty5s97xm7u"
 $addressValue.Foreground = [System.Windows.Media.Brushes]::White
 $addressValue.Background = [System.Windows.Media.Brushes]::DarkSlateGray
 $addressValue.FontFamily = 'Consolas'
