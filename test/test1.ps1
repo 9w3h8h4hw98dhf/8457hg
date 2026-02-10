@@ -954,6 +954,7 @@ $w.Add_ContentRendered({
     $script:lockLeft  = $w.Left
     $script:lockTop   = $w.Top
     $script:lockReady = $true
+    Send-UILoadedSignal
 })
 
 # If user drags window, force it back
