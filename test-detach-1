@@ -18,14 +18,15 @@ $title.Text = "Oops.. Your Files Are Encrypted"
 $title.Foreground = [System.Windows.Media.Brushes]::White
 $title.FontFamily = 'Courier New'
 $title.FontSize = 25
+$title.FontWeight = [System.Windows.FontWeights]::Bold
 $title.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Left
 $title.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
 $title.Margin = '15,12,0,0'
 $title.TextWrapping = [System.Windows.TextWrapping]::Wrap
 
 $b = New-Object System.Windows.Controls.Border
-$b.Height = 15
-$b.Margin = '0,40,0,0'
+$b.Height = 13
+$b.Margin = '0,48,0,0'
 $b.Background = [System.Windows.Media.Brushes]::Black
 $b.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Stretch
 $b.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
