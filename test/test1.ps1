@@ -120,6 +120,10 @@ $assuranceText.FontSize = 12
 $assuranceText.FontWeight = [System.Windows.FontWeights]::Bold
 $assuranceText.TextWrapping = 'Wrap'
 $assuranceText.Foreground = [System.Windows.Media.Brushes]::DarkBlue
+
+$assuranceStack.Children.Add($assuranceIcon)
+$assuranceStack.Children.Add($assuranceText)
+$assuranceSection.Child = $assuranceStack
 $stackPanel.Children.Add($assuranceSection)
     
     # What You Need section
