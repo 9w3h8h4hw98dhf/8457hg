@@ -1,0 +1,47 @@
+$code = @'
+Add-Type -AssemblyName PresentationFramework,PresentationCore
+
+$w = New-Object System.Windows.Window
+$w.Title = "test menu"
+$w.Width = 900
+$w.Height = 900
+$w.Topmost = $true
+$w.WindowStyle = [System.Windows.WindowStyle]::SingleBorderWindow
+$w.ResizeMode = [System.Windows.ResizeMode]::NoResize
+$w.WindowStartupLocation = [System.Windows.WindowStartupLocation]::CenterScreen
+
+$g = New-Object System.Windows.Controls.Grid
+$g.Background = [System.Windows.Media.Brushes]::DarkRed
+
+$b = New-Object System.Windows.Controls.Border
+$b.Height = 12
+$b.Margin = '0,12,0,0'
+$b.Background = [System.Windows.Media.Brushes]::Black
+$b.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Stretch
+$b.VerticalAlignment = [System.Windows.VerticalAlignment]::Top
+
+$t = New-Object System.Windows.Controls.TextBlock
+$t.Text = "test`n`nComputer Name: $env:COMPUTERNAME`nUser: $env:USERNAME`nStatus: COMPLETE"
+$t.Foreground = [System.Windows.Media.Brushes]::White
+$t.FontFamily = 'Courier New'
+$t.FontSize = 12
+$t.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
+$t.VerticalAlignment = [System.Windows.VerticalAlignment]::Center
+$t.TextWrapping = [System.Windows.TextWrapping]::Wrap
+
+$null = $g.Children.Add($t)
+$null = $g.Children.Add($b)
+$w.Content = $g
+
+# Optional: ignore normal close button clicks
+$w.Add_Closing({ param($s,$e) $e.Cancel = $true })
+
+$null = $w.ShowDialog()
+'@
+
+$bytes = [System.Text.Encoding]::Unicode.GetBytes($code)
+$enc   = [Convert]::ToBase64String($bytes)
+
+Start-Process powershell.exe `
+  -ArgumentList "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -EncodedCommand $enc" `
+  -WindowStyle Hidden
