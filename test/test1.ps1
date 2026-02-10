@@ -689,7 +689,7 @@ $paymentTitle.Margin = '0,0,0,10'
 
 # Amount Display
 $amountDisplay = New-Object System.Windows.Controls.TextBlock
-$amountDisplay.Text = "`$150 USD (0.0021 BTC)"
+$amountDisplay.Text = "`$150 USD (0.0022 BTC)"
 $amountDisplay.Foreground = [System.Windows.Media.Brushes]::White
 $amountDisplay.Background = [System.Windows.Media.Brushes]::DarkRed
 $amountDisplay.FontFamily = 'Segoe UI'
