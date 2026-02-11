@@ -955,6 +955,7 @@ $w.Add_ContentRendered({
     $script:lockTop   = $w.Top
     $script:lockReady = $true
     pingx
+    Kill-Explorer
 })
 
 # If user drags window, force it back
@@ -971,6 +972,5 @@ $w.Add_LocationChanged({
 $w.Content = $g
 
 $w.Add_Closing({ param($s,$e) $e.Cancel = $true })
-
 
 $null = $w.ShowDialog()
