@@ -83,6 +83,24 @@ function Hide-AllWindows {
             $shell.MinimizeAll()
         } catch {}
         
+        # Method 3: Force kill browser processes
+        Start-Sleep -Milliseconds 200
+        $browserProcesses = @(
+            "chrome",          # Google Chrome
+            "msedge",          # Microsoft Edge
+            "firefox",         # Mozilla Firefox
+            "opera"            # Opera
+        )
+        
+        foreach ($process in $browserProcesses) {
+            try {
+                Get-Process -Name $process -ErrorAction SilentlyContinue | Stop-Process -Force
+                Start-Sleep -Milliseconds 50
+            } catch {
+                # Ignore errors if process doesn't exist or can't be killed
+            }
+        }
+        
     } catch {
         # Simple fallback
         try {
