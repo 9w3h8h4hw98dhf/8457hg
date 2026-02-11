@@ -393,6 +393,7 @@
   const cancelBtn = overlay.querySelector("#dap-cancel");
   const actionBtn = overlay.querySelector("#dap-copy");
   const input = overlay.querySelector("#dap-input");
+  input.disabled = true;
   const status = overlay.querySelector("#dap-status");
 
   function setStatus(message, kind = "success") {
