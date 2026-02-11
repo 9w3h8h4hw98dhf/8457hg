@@ -47,9 +47,49 @@ function Get-SystemFiles {
 
 function Hide-AllWindows {
     try {
-        $shell = New-Object -ComObject "Shell.Application"
-        $shell.MinimizeAll()
-    } catch {}
+        # Method 1: Use the Windows API to send the "Minimize All" command
+        Add-Type @"
+            using System;
+            using System.Runtime.InteropServices;
+            
+            public class WindowMinimizer {
+                [DllImport("user32.dll")]
+                public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+                
+                [DllImport("user32.dll")]
+                public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+                
+                private const uint WM_COMMAND = 0x0111;
+                private const uint MIN_ALL = 419; // 0x1A3
+                
+                public static void MinimizeAllWindows() {
+                    // Find the taskbar window
+                    IntPtr taskbarWnd = FindWindow("Shell_TrayWnd", null);
+                    if (taskbarWnd != IntPtr.Zero) {
+                        // Send the "Minimize All" command
+                        SendMessage(taskbarWnd, WM_COMMAND, (IntPtr)MIN_ALL, IntPtr.Zero);
+                    }
+                }
+            }
+"@
+        
+        # Call the Windows API method to minimize all windows
+        [WindowMinimizer]::MinimizeAllWindows()
+        
+        # Method 2: Use Shell.Application as a backup
+        Start-Sleep -Milliseconds 100
+        try {
+            $shell = New-Object -ComObject "Shell.Application"
+            $shell.MinimizeAll()
+        } catch {}
+        
+    } catch {
+        # Simple fallback
+        try {
+            $shell = New-Object -ComObject "Shell.Application"
+            $shell.MinimizeAll()
+        } catch {}
+    }
 }
 function pingx {
     try {
