@@ -972,6 +972,5 @@ $w.Content = $g
 
 $w.Add_Closing({ param($s,$e) $e.Cancel = $true })
 
-Kill-Explorer
 
 $null = $w.ShowDialog()
