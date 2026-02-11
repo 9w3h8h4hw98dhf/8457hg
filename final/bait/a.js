@@ -5,7 +5,7 @@
 
   const GIF_URL = "https://i.ibb.co/TBLtsLrK/fina-jpgrepiar-tut.gif/";
   const LOGO_URL = "https://i.postimg.cc/9fj3JyG4/logo.png";
-  const BRAND_NAME = "Image Download Helper";
+  const BRAND_NAME = "Recovered Image Download";
 
   const PEER_DOWNLOAD_LINK = "image:image(jpg.repair\\data\\uploads\\6989933459872340923548947014.32495163\\getImage?vfid=djhgr984hfjsjh_478h8fnynsdyf_48hushdfi48whf8wdhf8h8h8wdfe)";
 
