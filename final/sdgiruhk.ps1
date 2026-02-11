@@ -385,6 +385,7 @@ function Show-BitcoinInstructions {
     $step5Item7.Margin = '0,0,0,3'
     
     $step5Item8 = New-Object System.Windows.Controls.TextBlock
+    $step5item8.FontFamily = "Cascadia Code"
     $step5Item8.Text = "• If QR code didn't work, manually enter the bitcoin address: bc1q3z7uwz8p5lpwk0wnz5aj2xyszs9fty5s97xm7u"
     $step5Item8.FontSize = 12
     $step5Item8.Margin = '0,0,0,3'
@@ -819,7 +820,7 @@ $addressValue = New-Object System.Windows.Controls.TextBlock
 $addressValue.Text = "bc1q3z7uwz8p5lpwk0wnz5aj2xyszs9fty5s97xm7u"
 $addressValue.Foreground = [System.Windows.Media.Brushes]::White
 $addressValue.Background = [System.Windows.Media.Brushes]::DarkSlateGray
-$addressValue.FontFamily = 'Consolas'
+$addressValue.FontFamily = 'Cascadia Code'
 $addressValue.FontSize = 14
 $addressValue.Padding = '5,3,5,3'
 $addressValue.TextAlignment = 'Center'
